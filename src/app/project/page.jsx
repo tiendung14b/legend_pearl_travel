@@ -1,8 +1,8 @@
 import TranslatedVideoHolder from "../components/TranslatedVideoHolder";
-import ShortVideoHolder from "../components/ShortVideoHolder";
-import SearchBar from "../components/SearchBar";
+import ShortVideoHolder from "../components/ShortVideoHolder"; 
+import SearchBar from "../components/SearchBar"; 
 
-const Translate = () => {
+const Projects = () => {
   return (
     <div class="w-[1061px] h-[1207px] left-[358px] top-[76px] absolute">
       <div class="w-[340px] h-[41px] left-[23px] top-[242px] absolute">
@@ -12,15 +12,14 @@ const Translate = () => {
       <div class="w-[995px] h-[175px] left-[23px] top-[38px] absolute">
         <div class="w-[995px] h-[175px] left-0 top-0 absolute bg-gradient-to-r from-[#f37b8f] to-[#00d4ff] rounded-[20px]"></div>
         <div class="left-[38px] top-[97px] absolute text-white text-[46px] font-bold font-['Nunito']">
-          Translate
+          My Projects
         </div>
         <img
           class="w-[200px] h-[165.75px] left-[655px] top-[9px] absolute"
-          src="/images/banner-translation-page-edited-1.png"
+          src="/images/icon-bato-edited-1.png"
         />
       </div>
-
-      {/* <div class="w-[202px] h-[143px] left-[26px] top-[355px] absolute">
+      <div class="w-[202px] h-[143px] left-[26px] top-[355px] absolute">
         <TranslatedVideoHolder
           imageUrl="/images/bocchiPlaceHolder.png"
           title="Add more"
@@ -105,9 +104,9 @@ const Translate = () => {
           title="Bocchi cries as fuck"
           dateCreated="1/1/2000"
         />
-      </div> */}
+      </div>
     </div>
   );
 };
 
-export default Translate;
+export default Projects;
