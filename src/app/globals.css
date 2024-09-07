@@ -35,6 +35,10 @@ a {
   cursor: pointer;
 }
 
+.linear-gradient {
+  background: linear-gradient(82deg, #f37b8f 31.07%, #00d4ff 89.63%);
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;

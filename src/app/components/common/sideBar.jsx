@@ -5,7 +5,7 @@ export default function SideBar() {
     avt: "/images/spinSeele.jpg",
   };
   return (
-    <div class="fixed w-[379px] h-[100vh] overflow-y-auto pr-[40px] pt-[40px] pb-[80px]">
+    <div class="fixed w-[320px] h-[100vh] overflow-y-auto pr-[20px] pb-[80px]">
       {/* user part */}
       <div class="flex gap-4">
         <img
