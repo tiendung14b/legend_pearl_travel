@@ -1,5 +1,4 @@
 import { useState } from "react";
-import Link from "next/link";
 import UserCard from "../components/UserCard";
 import CustomButton from "../components/CustomButton"; // Assuming this component is already created
 
