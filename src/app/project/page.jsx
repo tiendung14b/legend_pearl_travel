@@ -17,7 +17,7 @@ const Projects = () => {
         <img
           class="w-[200px] h-[165.75px] left-[655px] top-[9px] absolute"
           src="/images/icon-bato-edited-1.png"
-        />
+          alt={""}/>
       </div>
       <div class="w-[202px] h-[143px] left-[26px] top-[355px] absolute">
         <TranslatedVideoHolder

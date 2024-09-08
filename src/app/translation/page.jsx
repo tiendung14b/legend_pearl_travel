@@ -1,5 +1,3 @@
-import TranslatedVideoHolder from "../components/TranslatedVideoHolder";
-import ShortVideoHolder from "../components/ShortVideoHolder";
 import SearchBar from "../components/SearchBar";
 
 const Translate = () => {
@@ -17,7 +15,7 @@ const Translate = () => {
         <img
           class="w-[200px] h-[165.75px] left-[655px] top-[9px] absolute"
           src="/images/banner-translation-page-edited-1.png"
-        />
+          alt={" "}/>
       </div>
 
       {/* <div class="w-[202px] h-[143px] left-[26px] top-[355px] absolute">
