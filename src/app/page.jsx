@@ -5,7 +5,43 @@ import TranslationItem from "components/translation/translationItem";
 
 export default function MyProject() {
   const onOpenFile = () => {
+    console.log("open file");
     document.querySelector("#upload").click();
+  };
+
+  const handleUpload = (e) => {
+    const file = e.target.files[0];
+    const formdata = new FormData();
+    formdata.append("file", file);
+    formdata.append("api_key", "764383437531566");
+    formdata.append("upload_preset", "sicsqfql");
+    let res = undefined;
+    fetch("https://api.cloudinary.com/v1_1/dyimxwdfv/video/upload", {
+      method: "POST",
+      body: formdata,
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        console.log(result);
+        res = result;
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+    fetch("http://127.0.0.1:8000/translate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(res),
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   };
 
   const translatedVideo = [
@@ -107,7 +143,13 @@ export default function MyProject() {
           </div>
         </div>
       )}
-      <input type="file" name="upload" id="upload" class="hidden" />
+      <input
+        type="file"
+        name="upload"
+        id="upload"
+        class="hidden"
+        onChange={handleUpload}
+      />
     </div>
   );
 }
