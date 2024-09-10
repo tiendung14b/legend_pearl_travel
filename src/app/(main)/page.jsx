@@ -2,8 +2,28 @@
 import Header from "@/components/common/header";
 import Banner from "components/common/banner";
 import TranslationItem from "components/translation/translationItem";
-
+import { useEffect, useState } from "react";
 export default function MyProject() {
+  const [youtubeVideos, setYoutubeVideos] = useState([]);
+  const apikey = "";
+  useEffect(() => {
+    fetch(
+      `https://www.googleapis.com/youtube/v3/search?key=${apikey}&channelId=UC1EGizzKg_fn11ggLjhcrgQ&part=snippet,id&order=date&maxResults=20`,
+      {
+        method: "GET",
+      }
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        if (result.items === undefined) {
+          setYoutubeVideos([]);
+          return;
+        }
+        setYoutubeVideos(
+          result.items.filter((item) => item.id.kind === "youtube#video")
+        );
+      });
+  }, []);
   const onOpenFile = () => {
     console.log("open file");
     document.querySelector("#upload").click();
@@ -76,6 +96,7 @@ export default function MyProject() {
       date_created: "2021-09-06",
     },
   ];
+
   return (
     <div>
       <Banner label="My Projects">
@@ -113,6 +134,23 @@ export default function MyProject() {
           />
         </div>
       </div>
+      {youtubeVideos.length > 0 && (
+        <div class="mt-[30px] w-full">
+          <h3 class="text-base font-[700]">Youtube Videos</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mt-[20px]">
+            {youtubeVideos.map((item, index) => (
+              <TranslationItem
+                data={{
+                  img: item.snippet.thumbnails.medium.url,
+                  title: item.snippet.title,
+                  date_created: item.snippet.publishedAt,
+                }}
+                key={index}
+              />
+            ))}
+          </div>
+        </div>
+      )}
       {translatedVideo.length > 0 && (
         <div class="mt-[30px] w-full">
           <h3 class="text-base font-[700]">Translated Videos</h3>
