@@ -38,7 +38,6 @@ export default function Page2({ onChangePage, data }) {
       console.log(result);
     } catch (error) {
       console.log(error);
-      return;
     }
     setLanguages([...languages, language]);
     setCurrLanguage(language.languageCode);
