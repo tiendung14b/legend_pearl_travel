@@ -1,7 +1,6 @@
 import Banner from "components/common/banner";
 
 export default function Page2({ onChangePage, data }) {
-  console.log(data);
   return (
     <div class="flex flex-col h-[95vh]">
       <Banner label="My Projects">
@@ -25,8 +24,14 @@ export default function Page2({ onChangePage, data }) {
             frameborder="0"
             allowfullscreen
           ></iframe>
-          <div class="border-[1px] border-slate-400 h-[80%] w-full rounded-lg">
-            <button>Create short</button>
+          <div class="flex flex-col gap-4 border-[1px] border-slate-400 h-[80%] w-full rounded-lg px-6 py-5">
+            <button class="w-full rounded-sm text-[#f00] text-[14px] font-[700] py-2 px-[74px] bg-[#F37B8F26]">
+              Create short
+            </button>
+            <div class="flex flex-col">
+              <strong class="text-[14px] font-[700]">Title</strong>
+              <span>{data.snippet.title}</span>
+            </div>
           </div>
         </div>
       </div>
