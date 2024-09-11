@@ -5,7 +5,7 @@ import TranslationItem from "components/translation/translationItem";
 import { useEffect, useState } from "react";
 export default function MyProject() {
   const [youtubeVideos, setYoutubeVideos] = useState([]);
-  const apikey = "";
+  const apikey = "AIzaSyBFpSqujRWHa3z2nu73mwMFqCL01ib3KSI";
 
   const getVideos = async (id) => {
     const response = await fetch(
