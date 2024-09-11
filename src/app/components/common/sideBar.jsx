@@ -1,25 +1,69 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import { getCurrentUser, logout } from "api/api";
+import { useRouter } from "next/navigation";
+
 export default function SideBar() {
-  const user = {
-    name: "Nguyen Khoa Dang",
-    username: "dangkhoa",
-    avt: "/images/spinSeele.jpg",
+
+  const [user, setUser] = useState(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      getCurrentUser(token)
+        .then((data) => {
+          setUser(data);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
+  }, []);
+
+  const handleAuthAction = () => {
+    if (user) {
+      logout();
+      setUser(null);
+      console.log("Logged out successfully");
+    } else {
+      router.push("/login"); // Redirect to login page if user is a guest
+    }
   };
+
+  const userGuest = {
+    full_name: "Guest",
+    username: "guest",
+    avatar: "/images/guest_icon.png",
+  };
+
+  const currentUser = user || userGuest;
+  
   return (
     <div class="fixed w-[320px] overflow-y-auto pr-[20px]">
       {/* user part */}
       <div class="flex gap-4">
         <img
-          src={user.avt}
+          src={currentUser.avatar}
           alt="user profile image"
           class="size-[50px] rounded-full object-cover"
         />
         <div class="flex flex-col justify-evenly">
-          <span class="text-black text-base font-[700]">{user.name}</span>
-          <span class="text-black opacity-45">@{user.username}</span>
+          <span class="text-black text-base font-[700]">
+            {currentUser.full_name}
+          </span>
+          <span class="text-black opacity-45">@{currentUser.username}</span>
         </div>
       </div>
       <button class="mt-[20px] text-black text-[14px] font-[600] border-[2px] border-[#F37B8F] rounded-full px-6 py-3">
         Integrate your youtube account
+      </button>
+      <button
+        class="mt-[20px] text-black text-[14px] font-[600] border-[2px] border-[#F37B8F] rounded-full px-3 py-1"
+        onClick={handleAuthAction}
+      >
+        {user ? "Log out" : "Log in"}
       </button>
       {/* features */}
       <div class="flex flex-col gap-[10px] mt-[42px]">
