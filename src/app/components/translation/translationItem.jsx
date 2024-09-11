@@ -1,7 +1,7 @@
-export default function TranslationItem({ data }) {
+export default function TranslationItem({ data, onClick }) {
   data = data || {};
   return (
-    <div class="flex flex-col cursor-pointer">
+    <div class="flex flex-col cursor-pointer" onClick={onClick}>
       <img
         src={data.img || ""}
         alt="img"
