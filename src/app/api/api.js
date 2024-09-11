@@ -17,17 +17,15 @@ export const uploadAvatar = async (avatar, token) => {
   try {
     // Create a FormData object to hold the file
     const formData = new FormData();
-    formData.append('avatar', avatar);
-
+    formData.append("avatar", avatar);
     // Make a POST request to upload the avatar
     const response = await axios.post(`${API_URL}/upload-avatar`, formData, {
       headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
       },
     });
-
-    // Return the updated user details
+    // Return the updated user details with the new avatar URL from Cloudinary
     return response.data;
   } catch (error) {
     if (error.response) {
@@ -35,7 +33,7 @@ export const uploadAvatar = async (avatar, token) => {
     } else {
       console.error("Error occurred during upload:", error.message);
     }
-    throw error; // Re-throw the error after logging it
+    throw error;
   }
 };
 

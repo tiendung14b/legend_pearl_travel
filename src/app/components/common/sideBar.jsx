@@ -1,16 +1,19 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { getCurrentUser, logout } from "api/api";
+import { useState, useEffect, useRef } from "react";
+import { getCurrentUser, logout, uploadAvatar } from "api/api";
 import { useRouter } from "next/navigation";
 
 export default function SideBar() {
-
   const [user, setUser] = useState(null);
   const router = useRouter();
+  const [file, setFile] = useState(null);
+  const [token, setToken] = useState(" ");
+  const fileInputRef = useRef(null);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
+    setToken(token);
     if (token) {
       getCurrentUser(token)
         .then((data) => {
@@ -20,7 +23,10 @@ export default function SideBar() {
           console.error(err);
         });
     }
-  }, []);
+    if (file) {
+      handleUpload(); // Upload the selected file and update the user avatar + re-render with 
+    }
+  }, [file]);
 
   const handleAuthAction = () => {
     if (user) {
@@ -28,7 +34,38 @@ export default function SideBar() {
       setUser(null);
       console.log("Logged out successfully");
     } else {
-      router.push("/login"); // Redirect to login page if user is a guest
+      router.push("/login");
+    }
+  };
+
+  const triggerFileInput = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
+  const handleFileChange = (event) => {
+    const selectedFile = event.target.files[0];
+    if (selectedFile) {
+      setFile(selectedFile);
+    }
+  };
+
+  const handleUpload = async () => {
+    if (file && token) {
+      try {
+        const updatedUser = await uploadAvatar(file, token);
+        console.log("Avatar uploaded successfully:", updatedUser);
+        // Update the currentUser state or UI with the updated user details
+        setUser((prevUser) => ({
+          ...prevUser,
+          avatar: updatedUser.avatar, // Update the avatar URL
+        }));
+      } catch (error) {
+        console.error("Error uploading avatar:", error.message);
+      }
+    } else {
+      console.error("No file selected or token missing.");
     }
   };
 
@@ -39,28 +76,38 @@ export default function SideBar() {
   };
 
   const currentUser = user || userGuest;
-  
+
   return (
-    <div class="fixed w-[320px] overflow-y-auto pr-[20px]">
-      {/* user part */}
-      <div class="flex gap-4">
-        <img
-          src={currentUser.avatar}
-          alt="user profile image"
-          class="size-[50px] rounded-full object-cover"
-        />
-        <div class="flex flex-col justify-evenly">
-          <span class="text-black text-base font-[700]">
+    <div className="fixed w-[320px] h-[100vh] overflow-y-auto pr-[20px] pb-[80px]">
+      {/* User part */}
+      <div className="flex gap-4">
+        <div>
+          <button onClick={triggerFileInput} className="p-0">
+            <img
+              src={currentUser.avatar}
+              alt="user profile image"
+              className="w-[50px] h-[50px] rounded-full object-cover"
+            />
+          </button>
+          <input
+            type="file"
+            ref={fileInputRef}
+            style={{ display: "none" }}
+            onChange={handleFileChange}
+          />
+        </div>
+        <div className="flex flex-col justify-evenly">
+          <span className="text-black text-base font-bold">
             {currentUser.full_name}
           </span>
-          <span class="text-black opacity-45">@{currentUser.username}</span>
+          <span className="text-black opacity-45">@{currentUser.username}</span>
         </div>
       </div>
-      <button class="mt-[20px] text-black text-[14px] font-[600] border-[2px] border-[#F37B8F] rounded-full px-6 py-3">
-        Integrate your youtube account
+      <button className="mt-[20px] text-black text-[14px] font-semibold border-[2px] border-[#F37B8F] rounded-full px-6 py-3">
+        Integrate your YouTube account
       </button>
       <button
-        class="mt-[20px] text-black text-[14px] font-[600] border-[2px] border-[#F37B8F] rounded-full px-3 py-1"
+        className="mt-[20px] text-black text-[14px] font-semibold border-[2px] border-[#F37B8F] rounded-full px-3 py-1"
         onClick={handleAuthAction}
       >
         {user ? "Log out" : "Log in"}
