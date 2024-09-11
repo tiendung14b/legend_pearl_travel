@@ -6,22 +6,37 @@ import { useEffect, useState } from "react";
 export default function MyProject() {
   const [youtubeVideos, setYoutubeVideos] = useState([]);
   const apikey = "";
+
+  const getVideos = async (id) => {
+    const response = await fetch(
+      `https://youtube.googleapis.com/youtube/v3/playlistItems?key=${apikey}&part=snippet&playlistId=${id}`,
+      {
+        method: "GET",
+      }
+    );
+    console.log(response);
+    return response.items;
+  };
+
   useEffect(() => {
     fetch(
-      `https://www.googleapis.com/youtube/v3/search?key=${apikey}&channelId=UC1EGizzKg_fn11ggLjhcrgQ&part=snippet,id&order=date&maxResults=20`,
+      `https://youtube.googleapis.com/youtube/v3/playlists?key=${apikey}&part=snippet&channelId=UC1EGizzKg_fn11ggLjhcrgQ`,
       {
         method: "GET",
       }
     )
       .then((response) => response.json())
       .then((result) => {
-        if (result.items === undefined) {
-          setYoutubeVideos([]);
-          return;
-        }
-        setYoutubeVideos(
-          result.items.filter((item) => item.id.kind === "youtube#video")
-        );
+        fetch(
+          `https://youtube.googleapis.com/youtube/v3/playlistItems?key=${apikey}&part=snippet&playlistId=${result.items[0].id}&maxResults=25`,
+          {
+            method: "GET",
+          }
+        )
+          .then((response) => response.json())
+          .then((result) => {
+            setYoutubeVideos(result.items);
+          });
       });
   }, []);
   const onOpenFile = () => {
@@ -143,7 +158,9 @@ export default function MyProject() {
                 data={{
                   img: item.snippet.thumbnails.medium.url,
                   title: item.snippet.title,
-                  date_created: item.snippet.publishedAt,
+                  date_created: new Date(
+                    item.snippet.publishedAt
+                  ).toLocaleDateString("vi-VN"),
                 }}
                 key={index}
               />
