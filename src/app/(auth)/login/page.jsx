@@ -92,7 +92,7 @@ export default function Login() {
                     autoComplete="email"
                     value={email}
                     onChange={handleEmailChange}
-                    className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="pl-4 block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                 </div>
               </div>
@@ -113,7 +113,7 @@ export default function Login() {
                     autoComplete="password"
                     value={password}
                     onChange={handlePasswordChange}
-                    className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="pl-4 block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                 </div>
               </div>
@@ -145,7 +145,9 @@ export default function Login() {
               </div>
 
               {error && (
-                <div className="text-red-600 text-sm font-semibold">{error}</div>
+                <div className="text-red-600 text-sm font-semibold">
+                  {error}
+                </div>
               )}
               {success && (
                 <div className="text-green-600 text-sm font-semibold">
