@@ -23,23 +23,20 @@ export default function Page2({ onChangePage, data }) {
 
   const [languages, setLanguages] = useState([
     { language: "English", languageCode: "en" },
-    { language: "Spanish", languageCode: "es" },
   ]);
 
   const addLanguage = async (language) => {
     if (languages.length >= 5) return;
     try {
       const res = await fetch(
-        `http://127.0.0.1:8000/translate?video_url=https://www.youtube.com/watch?v=${data.snippet.resourceId.videoId}&language=${language.languageCode}&video_type=${data.type}&use_captions=${data.use_captions}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
+        `http://127.0.0.1:8000/translate?url=${`https://www.youtube.com/watch?v=${data.snippet.resourceId.videoId}`}&language=${
+          language.languageCode
+        }&video_type=${data.type}&use_captions=${
+          data.use_captions ? "True" : "False"
+        }`
       );
       const result = await res.json();
-      console.log(result);
+      document.getElementById("player").src = result.url;
     } catch (error) {
       console.log(error);
     }
@@ -85,6 +82,7 @@ export default function Page2({ onChangePage, data }) {
         </div>
         <div class="flex-1 flex gap-4 mt-8">
           <iframe
+            id="player"
             class="h-[80%] aspect-video rounded-lg"
             src={`https://www.youtube.com/embed/${data.snippet.resourceId.videoId}`}
             title="YouTube video player"
