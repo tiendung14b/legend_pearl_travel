@@ -25,24 +25,22 @@ export default function Page2({ onChangePage, data }) {
     { language: "English", languageCode: "en" },
   ]);
 
-  const addLanguage = async (language) => {
+  const addLanguage = (language) => {
     if (languages.length >= 5) return;
-    try {
-      const res = await fetch(
-        `http://127.0.0.1:8000/translate?url=${`https://www.youtube.com/watch?v=${data.snippet.resourceId.videoId}`}&language=${
-          language.language
-        }&video_type=${data.type}&use_captions=${
-          data.use_captions ? "True" : "False"
-        }`
-      );
-      const result = await res.json();
-      document.getElementById("player").src = result.url;
-    } catch (error) {
-      console.log(error);
-    }
-    setLanguages([...languages, language]);
-    setCurrLanguage(language.languageCode);
-    setOpen(false);
+    fetch(`
+      http://127.0.0.1:8000/translate?url=${`https://www.youtube.com/watch?v=${data.snippet.resourceId.videoId}`}&language=${
+      language.language
+    }&video_type=${data.type}&use_captions=${
+      data.use_captions ? "True" : "False"
+    }`)
+      .then((res) => res.json())
+      .then((res) => {
+        setLanguages([...languages, language]);
+        setCurrLanguage(language.languageCode);
+        setOpen(false);
+        console.log(res);
+        document.getElementById("player").src = res;
+      });
   };
 
   const availableLanguage = [
