@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { getCurrentUser, logout, uploadAvatar } from "api/api";
+import { getCurrentUser, uploadAvatar } from "api/api";
 import { useRouter } from "next/navigation";
 
 export default function SideBar() {
@@ -75,7 +75,11 @@ export default function SideBar() {
     avatar: "/images/guest_icon.png",
   };
 
-  const currentUser = user || userGuest;
+  const currentUser = {
+    ...userGuest, 
+    ...user,
+    avatar: user?.avatar || userGuest.avatar, // Use guest avatar if user avatar is null
+  };
 
   return (
     <div className="fixed w-[320px] h-[100vh] overflow-y-auto pr-[20px] pb-[80px]">

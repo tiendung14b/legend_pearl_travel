@@ -4,7 +4,7 @@ const API_URL = "https://batoreach-be.onrender.com";
 
 // const API_URL = "http://localhost:8888";
 
-export const registerUser = async (userData) => {
+export const signup = async (userData) => {
   try {
     const response = await axios.post(`${API_URL}/register`, userData);
     return response.data;
