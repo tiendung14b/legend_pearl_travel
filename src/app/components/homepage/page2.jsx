@@ -29,9 +29,11 @@ export default function Page2({ onChangePage, data }) {
     if (languages.length >= 5) return;
     try {
       const res = await fetch(
-        `http://127.0.0.1:8000/translate?url=${`https://www.youtube.com/watch?v=${data.snippet.resourceId.videoId}`}&language=${language}&video_type=${
-          data.type
-        }&use_captions=${data.use_captions ? "True" : "False"}`
+        `http://127.0.0.1:8000/translate?url=${`https://www.youtube.com/watch?v=${data.snippet.resourceId.videoId}`}&language=${
+          language.language
+        }&video_type=${data.type}&use_captions=${
+          data.use_captions ? "True" : "False"
+        }`
       );
       const result = await res.json();
       document.getElementById("player").src = result.url;
