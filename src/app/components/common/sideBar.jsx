@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { getCurrentUser, uploadAvatar } from "api/api";
+import { getCurrentUser, uploadAvatar, addYoutubeChannelID } from "api/api";
 import { useRouter } from "next/navigation";
 
 export default function SideBar() {
@@ -9,6 +9,8 @@ export default function SideBar() {
   const router = useRouter();
   const [file, setFile] = useState(null);
   const [token, setToken] = useState(" ");
+  const [YTshowInput, setYTshowInput] = useState(false);
+  const [YTchannelID, setYTchannelID] = useState("");
   const fileInputRef = useRef(null);
 
   useEffect(() => {
@@ -81,6 +83,28 @@ export default function SideBar() {
     avatar: user?.avatar || userGuest.avatar, // Use guest avatar if user avatar is null
   };
 
+  const triggerYoutubeChannelIDInput = () => {
+    setYTshowInput(true);
+  };
+
+  const handleYoutubeChannelIDChange = (event) => {
+    setYTchannelID(event.target.value);
+  };
+
+  const handleYoutubeChannelIDSubmit = async (event) => {
+    event.preventDefault();
+    console.log("Submitted YouTube Channel ID:", YTchannelID);
+
+    try {
+      await addYoutubeChannelID(YTchannelID, token);
+      alert("YouTube Channel ID added successfully!");
+    } catch (error) {
+      alert(`Error: ${error.message}`);
+    }
+
+    setYTshowInput(false);
+  };
+
   return (
     <div className="fixed w-[320px] h-[100vh] overflow-y-auto pr-[20px] pb-[80px]">
       {/* User part */}
@@ -107,9 +131,30 @@ export default function SideBar() {
           <span className="text-black opacity-45">@{currentUser.username}</span>
         </div>
       </div>
-      <button className="mt-[20px] text-black text-[14px] font-semibold border-[2px] border-[#F37B8F] rounded-full px-6 py-3">
+      <button
+        onClick={triggerYoutubeChannelIDInput}
+        className="mt-[20px] text-black text-[14px] font-semibold border-[2px] border-[#F37B8F] rounded-full px-6 py-3"
+      >
         Integrate your YouTube account
       </button>
+
+      {YTshowInput && (
+        <form onSubmit={handleYoutubeChannelIDSubmit} className="mt-4">
+          <input
+            type="text"
+            value={YTchannelID}
+            onChange={handleYoutubeChannelIDChange}
+            placeholder="Enter YouTube Channel ID"
+            className="px-6 py-2 border rounded-md"
+          />
+          <button
+            type="submit"
+            className="mt-2 px-4 py-2 bg-[#F37B8F] text-white rounded-md"
+          >
+            Submit
+          </button>
+        </form>
+      )}
       {/* <button
         className="mt-[20px] text-black text-[14px] font-semibold border-[2px] border-[#F37B8F] rounded-full px-3 py-1"
         onClick={handleAuthAction}
