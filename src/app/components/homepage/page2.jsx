@@ -29,20 +29,15 @@ export default function Page2({ onChangePage, data }) {
   const addLanguage = async (language) => {
     if (languages.length >= 5) return;
     try {
-      const res = await fetch("http://127.0.0.1:8000/translate", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          url:
-            "https://www.youtube.com/watch?v=" +
-            data.snippet.resourceId.videoId,
-          language: language.languageCode,
-          video_type: data.type,
-          use_captions: data.use_captions,
-        }),
-      });
+      const res = await fetch(
+        `http://127.0.0.1:8000/translate?url=https://www.youtube.com/watch?v=${data.snippet.resourceId.videoId}&language=${language.languageCode}&type=${data.type}&use_captions=${data.use_captions}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       const result = await res.json();
       console.log(result);
     } catch (error) {
