@@ -152,7 +152,11 @@ export default function Page1({ onChangePage }) {
                   ).toLocaleDateString("vi-VN"),
                 }}
                 onClick={() => {
-                  onChangePage(2, item);
+                  onChangePage(2, {
+                    ...item,
+                    type: "Youtube link",
+                    use_captions: false,
+                  });
                 }}
                 key={index}
               />

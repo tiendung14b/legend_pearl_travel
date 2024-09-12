@@ -33,6 +33,8 @@ export default function Page2({ onChangePage, data }) {
         url:
           "https://www.youtube.com/watch?v=" + data.snippet.resourceId.videoId,
         language: language.languageCode,
+        video_type: data.type,
+        use_captions: data.use_captions,
       });
       const result = await res.json();
       console.log(result);
