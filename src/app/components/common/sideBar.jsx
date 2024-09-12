@@ -28,15 +28,15 @@ export default function SideBar() {
     }
   }, [file]);
 
-  const handleAuthAction = () => {
-    if (user) {
-      logout();
-      setUser(null);
-      console.log("Logged out successfully");
-    } else {
-      router.push("/login");
-    }
-  };
+  // const handleAuthAction = () => {
+  //   if (user) {
+  //     logout();
+  //     setUser(null);
+  //     console.log("Logged out successfully");
+  //   } else {
+  //     router.push("/login");
+  //   }
+  // };
 
   const triggerFileInput = () => {
     if (fileInputRef.current) {
@@ -106,12 +106,12 @@ export default function SideBar() {
       <button className="mt-[20px] text-black text-[14px] font-semibold border-[2px] border-[#F37B8F] rounded-full px-6 py-3">
         Integrate your YouTube account
       </button>
-      <button
+      {/* <button
         className="mt-[20px] text-black text-[14px] font-semibold border-[2px] border-[#F37B8F] rounded-full px-3 py-1"
         onClick={handleAuthAction}
       >
         {user ? "Log out" : "Log in"}
-      </button>
+      </button> */}
       {/* features */}
       <div class="flex flex-col gap-[10px] mt-[42px]">
         <strong class="text-black text-base font-[700]">Features</strong>
