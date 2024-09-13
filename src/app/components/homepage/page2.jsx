@@ -87,7 +87,7 @@ export default function Page2({ onChangePage, data }) {
             frameborder="0"
             allowfullscreen
           ></iframe>
-          <div class="flex flex-col gap-4 border-[1px] border-slate-400 h-[80%] w-full rounded-lg px-6 py-5">
+          <div class="flex flex-col gap-4 border-[1px] border-slate-400 w-full h-full rounded-lg px-6 py-5">
             <button class="w-full rounded-sm text-[#f00] text-[14px] font-[700] py-2 text-center bg-[#F37B8F26]">
               Create short
             </button>
