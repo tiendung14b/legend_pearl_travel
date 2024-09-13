@@ -162,11 +162,11 @@ export default function SideBar() {
         {user ? "Log out" : "Log in"}
       </button> */}
       {/* features */}
-      <div class="flex flex-col gap-[10px] mt-[42px]">
-        <strong class="text-black text-base font-[700]">Features</strong>
-        <ul class="flex flex-col gap-[10px] *:text-base *:text-black *:font-[400] *:flex *:items-center *:gap-3 *:p-4 *:rounded-md hover:*:bg-slate-200">
-          <a class="selected_item_sidebar">
-            <div class="min-w-6">
+      <div className="flex flex-col gap-[10px] mt-[42px]">
+        <strong className="text-black text-base font-[700]">Features</strong>
+        <ul className="flex flex-col gap-[10px] *:text-base *:text-black *:font-[400] *:flex *:items-center *:gap-3 *:p-4 *:rounded-md hover:*:bg-slate-200">
+          <a className="selected_item_sidebar">
+            <div className="min-w-6">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"
@@ -189,8 +189,8 @@ export default function SideBar() {
             </div>
             <span>Projects</span>
           </a>
-          <a class="">
-            <div class="min-w-6">
+          <a className="">
+            <div className="min-w-6">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"
@@ -209,15 +209,15 @@ export default function SideBar() {
             </div>
             <span>Translate</span>
           </a>
-          <a class="">
-            <div class="min-w-6">
+          <a className="">
+            <div className="min-w-6">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="25"
                 height="25"
                 viewBox="0 0 30 30"
                 fill="none"
-                class="-translate-x-1"
+                className="-translate-x-1"
               >
                 <path
                   d="M22.948 12.8421C22.485 12.5803 22.0421 12.2984 21.5188 11.9965C22.0421 11.6744 22.5255 11.3925 22.9885 11.1307C25.1424 9.96304 26.3302 7.58783 25.9676 5.1721C25.4441 1.20671 20.8744 -1.08783 17.4122 0.884659C13.8693 2.91807 10.3264 4.91097 6.82364 7.00431C4.04569 8.67516 3.64296 10.8894 4.08587 13.5063C4.36775 15.137 5.45475 16.3445 6.8839 17.17C7.38707 17.4519 7.87015 17.7338 8.41382 18.0558C7.80989 18.4181 7.26655 18.7401 6.6827 19.0421C4.10595 20.6728 3.22015 24.0141 4.66971 26.7117C6.19962 29.5503 9.74253 30.6373 12.5807 29.1074C15.6406 27.3763 18.7004 25.6046 21.7401 23.8334C22.4649 23.4105 23.2299 23.0282 23.874 22.5046C27.1149 19.807 26.6318 14.9157 22.948 12.8421ZM12.1382 19.4448V10.648L19.7476 15.0365L12.1382 19.4448Z"
@@ -230,9 +230,9 @@ export default function SideBar() {
         </ul>
       </div>
       {/* About */}
-      <div class="flex flex-col gap-[10px] mt-[42px]">
-        <strong class="text-black text-base font-[700]">About</strong>
-        <ul class="flex flex-col gap-[10px] *:text-base *:font-[400] *:text-slate-600">
+      <div className="flex flex-col gap-[10px] mt-[42px]">
+        <strong className="text-black text-base font-[700]">About</strong>
+        <ul className="flex flex-col gap-[10px] *:text-base *:font-[400] *:text-slate-600">
           <li>Developed by Batosoft</li>
           <li>Product name: BatoReach</li>
           <li>

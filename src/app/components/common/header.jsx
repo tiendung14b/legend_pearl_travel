@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 
 export default function Header() {
   const [user, setUser] = useState(null);
-  const router = useRouter(); 
+  const router = useRouter();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -37,18 +37,18 @@ export default function Header() {
   };
 
   return (
-    <div class="fixed z-10 bg-white w-[100vw] mb-[100%] shadow-md">
-      <div class="py-[12px] content flex justify-between">
-        <img src="/images/favicon.png" class="h-[36px]" alt="" />
-        <div class="flex gap-2">
+    <div className="fixed z-10 bg-white w-[100vw] mb-[100%] shadow-md">
+      <div className="py-[12px] content flex justify-between">
+        <img src="/images/favicon.png" className="h-[36px]" alt="" />
+        <div className="flex gap-2">
           <button
-            class="text-black text-[14px] font-semibold border-[2px] border-[#F37B8F] rounded-full px-3 py-1"
+            className="text-black text-[14px] font-semibold border-[2px] border-[#F37B8F] rounded-full px-3 py-1"
             onClick={handleSignup}
           >
             Sign up
           </button>
           <button
-            class="text-black text-[14px] font-semibold border-[2px] border-[#F37B8F] rounded-full px-3 py-1"
+            className="text-black text-[14px] font-semibold border-[2px] border-[#F37B8F] rounded-full px-3 py-1"
             onClick={handleAuthAction}
           >
             {user ? "Log out" : "Log in"}

@@ -180,7 +180,7 @@ export default function Page1({ onChangePage }) {
                   <path
                     d="M18.333 21.6666H8.33301V18.3333H18.333V8.33325H21.6663V18.3333H31.6663V21.6666H21.6663V31.6666H18.333V21.6666Z"
                     fill="black"
-                    fill-opacity="0.6"
+                    fillOpacity="0.6"
                   />
                 </svg>
               </div>
