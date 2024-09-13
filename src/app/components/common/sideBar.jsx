@@ -26,7 +26,7 @@ export default function SideBar() {
         });
     }
     if (file) {
-      handleUpload(); // Upload the selected file and update the user avatar + re-render with 
+      handleUpload(); // Upload the selected file and update the user avatar + re-render with
     }
   }, [file]);
 
@@ -78,7 +78,7 @@ export default function SideBar() {
   };
 
   const currentUser = {
-    ...userGuest, 
+    ...userGuest,
     ...user,
     avatar: user?.avatar || userGuest.avatar, // Use guest avatar if user avatar is null
   };
@@ -106,7 +106,7 @@ export default function SideBar() {
   };
 
   return (
-    <div className="fixed w-[320px] h-[100vh] overflow-y-auto pr-[20px] pb-[80px]">
+    <div className="fixed w-[320px] overflow-y-auto pr-[20px] pb-[80px]">
       {/* User part */}
       <div className="flex gap-4">
         <div>

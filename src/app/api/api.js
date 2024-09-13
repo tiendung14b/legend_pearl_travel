@@ -93,7 +93,7 @@ export const logout = () => {
 export const addYoutubeChannelID = async (channelId, authToken) => {
   try {
     const response = await axios.post(
-      `${API_URL}/set_channel_id`,
+      `${API_URL}/set_youtube_id`,
       {
         youtube_channel_id: channelId,
       },

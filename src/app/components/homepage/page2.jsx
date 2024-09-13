@@ -1,6 +1,15 @@
 import Banner from "components/common/banner";
 import { useState } from "react";
 
+const characters = [
+  { name: "アリス", src: "/audios/arisu.mp3" },
+  { name: "Obama", src: "/audios/obama.mp3" },
+  { name: "Trump", src: "/audios/trump.mp3" },
+  { name: "Thắng (Ngọt)", src: "/audios/thang.mp3" },
+  { name: "Yoda", src: "/audios/yoda.mp3" },
+  { name: "Yukkuri", src: "/audios/yukkuri.mp3" },
+];
+
 function LanguagesSelection({ languages, addLanguage }) {
   return (
     <div class="absolute bottom-0 translate-y-1/2 left-full flex flex-col mt-2 h-[130px] bg-white shadow-lg overflow-y-scroll hover:*:bg-[#F37B8F26] hover:*:text-red-600 *:cursor-pointer">
@@ -87,7 +96,7 @@ export default function Page2({ onChangePage, data }) {
             frameborder="0"
             allowfullscreen
           ></iframe>
-          <div class="flex flex-col gap-4 border-[1px] border-slate-400 w-full h-full rounded-lg px-6 py-5">
+          <div class="flex flex-col gap-4 border-[1px] border-slate-400 w-full h-[80%] overflow-y-auto rounded-lg px-6 py-5">
             <button class="w-full rounded-sm text-[#f00] text-[14px] font-[700] py-2 text-center bg-[#F37B8F26]">
               Create short
             </button>
