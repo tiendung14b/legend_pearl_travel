@@ -93,7 +93,7 @@ export default function Page2({ onChangePage, data }) {
       language.language
     }&video_type=${data.type}&use_captions=${
       data.use_captions ? "True" : "False"
-    }&voice=${voice}`)
+    }&voice=${voice}&video_id=${data.snippet.resourceId.videoId || ""}`)
       .then((res) => res.json())
       .then((res) => {
         setLanguages([...languages, language]);
