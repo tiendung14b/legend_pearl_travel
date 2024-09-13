@@ -2,6 +2,7 @@ import Banner from "components/common/banner";
 import { useState } from "react";
 
 const characters = [
+  { value: "none", name: "Default" },
   { value: "Arisu", name: "アリス", src: "/audios/arisu.mp3" },
   { value: "Obama", name: "Obama", src: "/audios/obama.mp3" },
   { value: "Trump", name: "Trump", src: "/audios/trump.mp3" },
@@ -143,7 +144,7 @@ export default function Page2({ onChangePage, data }) {
             <div className="flex flex-col">
               <div className="flex items-center gap-2">
                 <strong className="text-[16px] font-[700]">Voices</strong>
-                {!loadAudio ? (
+                {!loadAudio && charVoice.value !== "none" ? (
                   <button
                     className="bg-slate-100 size-6 rounded-md p-1"
                     onClick={() => {
@@ -154,7 +155,12 @@ export default function Page2({ onChangePage, data }) {
                     <img src="/images/hear.svg" alt="" className="size-4" />
                   </button>
                 ) : (
-                  <img src="/images/wavesound.gif" className="size-4" />
+                  <img
+                    src="/images/wavesound.gif"
+                    className={`size-4 ${
+                      charVoice.value === "none" && "hidden"
+                    }`}
+                  />
                 )}
                 <audio
                   className="hidden"
