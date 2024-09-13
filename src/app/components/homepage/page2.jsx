@@ -1,5 +1,6 @@
 import Banner from "components/common/banner";
 import { useState } from "react";
+import { createVideo } from "api/api";
 
 const characters = [
   { value: "none", name: "Default" },
@@ -76,6 +77,7 @@ function popupConfirmUpload({ data, setRequiredConfirm, onAgree }) {
 }
 
 export default function Page2({ onChangePage, data }) {
+  // data có type, và toàn bộ snippet
   const [open, setOpen] = useState(false);
   const [currLanguage, setCurrLanguage] = useState("en");
   const [charVoice, setCharVoice] = useState(characters[0]);
@@ -87,22 +89,66 @@ export default function Page2({ onChangePage, data }) {
     { language: "English", languageCode: "en" },
   ]);
 
-  const addLanguage = (language, voice) => {
+  const addLanguage = async (language, voice) => {
     console.log(language, voice);
-    fetch(`
+    try {
+      const response = await fetch(`
       http://127.0.0.1:8000/translate?url=${`https://www.youtube.com/watch?v=${data.snippet.resourceId.videoId}`}&language=${
-      language.language
-    }&video_type=${data.type}&use_captions=${
-      data.use_captions ? "True" : "False"
-    }&voice=${voice.value}&video_id=${data.snippet.resourceId.videoId || ""}`)
-      .then((res) => res.json())
-      .then((res) => {
+        language.language
+      }&video_type=${data.type}&use_captions=${
+        data.use_captions ? "True" : "False"
+      }&voice=${voice.value}&video_id=${
+        data.snippet.resourceId.videoId || ""
+      }`);
+
+      const res = await response.json();
+
+      console.log(res);
+
+      const videoData = {
+        video_id: data.snippet.resourceId.videoId,
+        video_title: data.snippet.title,
+        video_voice: voice.value,
+        video_language: language.language,
+        video_type: data.type,
+        video_url: res,
+      };
+
+      const token = localStorage.getItem("token");
+      const createdVideo = await createVideo(videoData, token);
+      console.log(videoData);
+      if (createdVideo) {
+        alert("Video created successfully!");
         setLanguages([...languages, language]);
         setCurrLanguage(language.languageCode);
         setOpen(false);
         document.getElementById("player").src = res;
-      });
+      } else {
+        alert("Failed to create video. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error adding language:", error);
+      alert("An error occurred while adding the language. Please try again.");
+    }
   };
+
+  // Test method using fake data
+  // const testAddLanguage = (language, voice) => {
+  //   const fakeLanguage = { language: "Spanish", languageCode: "es" };
+  //   const fakeVoice = { value: "es-ES-Standard-A" };
+  //   const fakeResponse = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+
+  //   console.log("Testing addLanguage with fake data:", fakeLanguage, fakeVoice);
+
+  //   // Simulate API call with setTimeout
+  //   setTimeout(() => {
+  //     console.log("Fake API response:", fakeResponse);
+  //     setLanguages([...languages, fakeLanguage]);
+  //     setCurrLanguage(fakeLanguage.languageCode);
+  //     setOpen(false);
+  //     document.getElementById("player").src = fakeResponse;
+  //   }, 1000);
+  // };
 
   return (
     <div className="flex flex-col h-[95vh]">
@@ -248,6 +294,7 @@ export default function Page2({ onChangePage, data }) {
                       },
                       onAgree: () => {
                         addLanguage(selectedLanguage, charVoice);
+                        // testAddLanguage();
                       },
                     })}
                 </span>
