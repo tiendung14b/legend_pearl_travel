@@ -88,12 +88,13 @@ export default function Page2({ onChangePage, data }) {
   ]);
 
   const addLanguage = (language, voice) => {
+    console.log(language, voice);
     fetch(`
       http://127.0.0.1:8000/translate?url=${`https://www.youtube.com/watch?v=${data.snippet.resourceId.videoId}`}&language=${
       language.language
     }&video_type=${data.type}&use_captions=${
       data.use_captions ? "True" : "False"
-    }&voice=${voice}&video_id=${data.snippet.resourceId.videoId || ""}`)
+    }&voice=${voice.value}&video_id=${data.snippet.resourceId.videoId || ""}`)
       .then((res) => res.json())
       .then((res) => {
         setLanguages([...languages, language]);
@@ -180,6 +181,10 @@ export default function Page2({ onChangePage, data }) {
                 id="char"
                 onChange={() => {
                   setCharVoice({
+                    value: characters.find(
+                      (character) =>
+                        character.src === document.getElementById("char").value
+                    ).value,
                     src: document.getElementById("char").value,
                     name: document.getElementById("char").selectedOptions[0]
                       .text,
@@ -242,7 +247,7 @@ export default function Page2({ onChangePage, data }) {
                         setRequiredConfirm(false);
                       },
                       onAgree: () => {
-                        addLanguage(selectedLanguage, charVoice.value);
+                        addLanguage(selectedLanguage, charVoice);
                       },
                     })}
                 </span>
