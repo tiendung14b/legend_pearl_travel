@@ -2,12 +2,12 @@ import Banner from "components/common/banner";
 import { useState } from "react";
 
 const characters = [
-  { name: "アリス", src: "/audios/arisu.mp3" },
-  { name: "Obama", src: "/audios/obama.mp3" },
-  { name: "Trump", src: "/audios/trump.mp3" },
-  { name: "Thắng (Ngọt)", src: "/audios/thang.mp3" },
-  { name: "Yoda", src: "/audios/yoda.mp3" },
-  { name: "Yukkuri", src: "/audios/yukkuri.mp3" },
+  { value: "Arisu", name: "アリス", src: "/audios/arisu.mp3" },
+  { value: "Obama", name: "Obama", src: "/audios/obama.mp3" },
+  { value: "Trump", name: "Trump", src: "/audios/trump.mp3" },
+  { value: "Thang Ngot", name: "Thắng (Ngọt)", src: "/audios/thang.mp3" },
+  { value: "Yoda", name: "Yoda", src: "/audios/yoda.mp3" },
+  { value: "Yukkuri", name: "Yukkuri", src: "/audios/yukkuri.mp3" },
 ];
 
 const availableLanguage = [
@@ -236,7 +236,7 @@ export default function Page2({ onChangePage, data }) {
                         setRequiredConfirm(false);
                       },
                       onAgree: () => {
-                        addLanguage(selectedLanguage, charVoice.name);
+                        addLanguage(selectedLanguage, charVoice.value);
                       },
                     })}
                 </span>
