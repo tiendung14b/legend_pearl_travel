@@ -2,6 +2,7 @@
 
 import Page1 from "components/homepage/page1";
 import Page2 from "components/homepage/page2";
+import Page3 from "components/homepage/page3";
 import { useState } from "react";
 
 export default function MyProject() {
@@ -12,9 +13,15 @@ export default function MyProject() {
     setData(data);
   };
 
-  return currentPage === 1 ? (
-    <Page1 onChangePage={onChangePage} />
-  ) : (
-    <Page2 onChangePage={onChangePage} data={data} />
-  );
+  function getPage(currentPage) {
+    if (currentPage === 1) {
+      return <Page1 onChangePage={onChangePage} />;
+    } else if (currentPage === 2) {
+      return <Page2 onChangePage={onChangePage} data={data} />;
+    } else {
+      return <Page3 onChangePage={onChangePage} data={data} />;
+    }
+  }
+
+  return getPage(currentPage);
 }

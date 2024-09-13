@@ -164,7 +164,7 @@ export default function SideBar() {
       {/* features */}
       <div className="flex flex-col gap-[10px] mt-[42px]">
         <strong className="text-black text-base font-[700]">Features</strong>
-        <ul className="flex flex-col gap-[10px] *:text-base *:text-black *:font-[400] *:flex *:items-center *:gap-3 *:p-4 *:rounded-md hover:*:bg-slate-200">
+        <ul className="flex flex-col gap-[10px] *:text-base *:text-black *:transition-all *:duration-300 *:font-[400] *:flex *:items-center *:gap-3 *:p-4 *:rounded-md hover:*:bg-slate-200">
           <a className="selected_item_sidebar">
             <div className="min-w-6">
               <svg

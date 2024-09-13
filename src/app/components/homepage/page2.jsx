@@ -80,6 +80,7 @@ export default function Page2({ onChangePage, data }) {
   const [currLanguage, setCurrLanguage] = useState("en");
   const [charVoice, setCharVoice] = useState(characters[0]);
   const [loadAudio, setLoadAudio] = useState(false);
+  const [loadVideo, setLoadVideo] = useState(false);
   const [requiredConfirm, setRequiredConfirm] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState(null);
 
@@ -88,18 +89,20 @@ export default function Page2({ onChangePage, data }) {
   ]);
 
   const addLanguage = (language, voice) => {
-    console.log(language, voice);
+    setOpen(!open);
+    setRequiredConfirm(false);
     fetch(`
       http://127.0.0.1:8000/translate?url=${`https://www.youtube.com/watch?v=${data.snippet.resourceId.videoId}`}&language=${
       language.language
     }&video_type=${data.type}&use_captions=${
       data.use_captions ? "True" : "False"
-    }&voice=${voice.value}&video_id=${data.snippet.resourceId.videoId || ""}`)
+    }&voice_name=${voice.value}&video_id=${
+      data.snippet.resourceId.videoId || ""
+    }`)
       .then((res) => res.json())
       .then((res) => {
         setLanguages([...languages, language]);
         setCurrLanguage(language.languageCode);
-        setOpen(false);
         document.getElementById("player").src = res;
       });
   };
@@ -129,7 +132,12 @@ export default function Page2({ onChangePage, data }) {
             allowFullScreen
           ></iframe>
           <div className="flex flex-col gap-4 border-[1px] border-slate-400 w-full h-[80%] overflow-y-auto rounded-lg px-6 py-5">
-            <button className="w-full rounded-sm text-[#f00] text-[14px] font-[700] py-2 text-center bg-[#F37B8F26]">
+            <button
+              onClick={() => {
+                onChangePage(3, data);
+              }}
+              className="w-full rounded-sm text-[#f00] text-[14px] font-[700] py-2 text-center bg-[#F37B8F26]"
+            >
               Create short
             </button>
             <div className="flex flex-col">
@@ -181,11 +189,13 @@ export default function Page2({ onChangePage, data }) {
                 id="char"
                 onChange={() => {
                   setCharVoice({
-                    value: characters.find(
-                      (character) =>
-                        character.src === document.getElementById("char").value
-                    ).value,
-                    src: document.getElementById("char").value,
+                    value:
+                      characters.find(
+                        (character) =>
+                          character.src ===
+                          document.getElementById("char").value
+                      )?.value || "none",
+                    src: document.getElementById("char").value || undefined,
                     name: document.getElementById("char").selectedOptions[0]
                       .text,
                   });
@@ -232,7 +242,7 @@ export default function Page2({ onChangePage, data }) {
                         confirm={(language) => {
                           setSelectedLanguage(language);
                           setRequiredConfirm(true);
-                          setOpen(false);
+                          setOpen(!open);
                         }}
                       />
                     )
