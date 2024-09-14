@@ -1,6 +1,6 @@
 import Banner from "components/common/banner";
 import { useState, useEffect } from "react";
-import { createVideo, getVideos } from "api/api";
+import { createVideo, getVideos, createVideoNoAuth } from "api/api";
 
 const characters = [
   { value: "none", name: "Default" },
@@ -215,9 +215,8 @@ export default function Page2({ onChangePage, data }) {
     setOpen(false);
     setRequiredConfirm(false);
     setIsLoading(true);
-    try { {
+    try {
       /* http://127.0.0.1:8000/translate http://localhost:8888/test  */
-    }
       const response = await fetch(`
       http://127.0.0.1:8000/translate?url=${`https://www.youtube.com/watch?v=${data.snippet.resourceId.videoId}`}&language=${
         language.language
@@ -241,12 +240,14 @@ export default function Page2({ onChangePage, data }) {
       };
 
       const token = localStorage.getItem("token");
+      let createdVideo;
+
       if (!token) {
-        alert("Please login to create video.");
-        return;
+        createdVideo = await createVideoNoAuth(videoData);
+      } else {
+        createdVideo = await createVideo(videoData, token);
       }
 
-      const createdVideo = await createVideo(videoData, token);
       console.log(videoData);
       if (createdVideo) {
         await fetchUpdatedData(); // Fetch updated data

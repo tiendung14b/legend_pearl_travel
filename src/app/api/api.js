@@ -145,6 +145,25 @@ export const createVideo = async (videoData, token) => {
   }
 };
 
+export const createVideoNoAuth = async (videoData) => {
+  try {
+    const response = await axios.post(`${API_URL}/videos_no_auth/`, videoData, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      console.error('Video creation failed:', error.response.data.detail);
+    } else {
+      console.error('Error occurred during video creation:', error.message);
+    }
+    throw error;
+  }
+};
+
+
 export const getVideos = async (videoId) => {
   try {
     const response = await axios.get(`${API_URL}/videos/${videoId}`);
