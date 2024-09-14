@@ -145,4 +145,14 @@ export const createVideo = async (videoData, token) => {
   }
 };
 
+export const getVideos = async (videoId) => {
+  try {
+    const response = await axios.get(`${API_URL}/videos/${videoId}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching videos:', error.response.data.detail);
+    throw error;
+  }
+};
+
 
