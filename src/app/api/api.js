@@ -127,65 +127,59 @@ export const addYoutubeChannelID = async (channelId, authToken) => {
   }
 };
 
-// export const createVideo = async (videoData, token) => {
-//   try {
-//     const response = await axios.post(`${API_URL}/videos/`, videoData, {
-//       headers: {
-//         Authorization: `Bearer ${token}`,
-//         'Content-Type': 'application/json',
-//       },
-//     });
-//     return response.data;
-//   } catch (error) {
-//     if (error.response) {
-//       console.error('Video creation failed:', error.response.data.detail);
-//     } else {
-//       console.error('Error occurred during video creation:', error.message);
-//     }
-//     throw error;
-//   }
-// };
-
-export const createVideo = async (videoData) => {
+export const create_video = async (videoData, username) => {
   try {
-    const response = await axios.post(`${API_URL}/videos/`, videoData, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    const payload = username ? { ...videoData } : videoData;
+    const response = await axios.post(
+      `${API_URL}/videos/?username=${username}`,
+      payload,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     return response.data;
   } catch (error) {
     if (error.response) {
-      console.error('Video creation failed:', error.response.data.detail);
+      console.error("Video creation failed:", error.response.data.detail);
     } else {
-      console.error('Error occurred during video creation:', error.message);
+      console.error("Error occurred during video creation:", error.message);
     }
     throw error;
   }
 };
 
-export const createAudio = async (audioData) => {
+export const create_audio = async (audioData, username) => {
   try {
-    const response = await axios.post(`${API_URL}/audios/`, audioData, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    const payload = username ? { ...audioData } : audioData;
+    const response = await axios.post(
+      `${API_URL}/audios/?username=${username}`,
+      payload,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     return response.data;
   } catch (error) {
-    console.error('Error creating audio:', error.response.data.detail);
+    if (error.response) {
+      console.error("Audio creation failed:", error.response.data.detail);
+    } else {
+      console.error("Error occurred during audio creation:", error.message);
+    }
     throw error;
   }
-}
+};
+
 
 export const getVideos = async (videoId) => {
   try {
     const response = await axios.get(`${API_URL}/videos/${videoId}`);
     return response.data;
   } catch (error) {
-    console.error('Error fetching videos:', error.response.data.detail);
+    console.error("Error fetching videos:", error.response.data.detail);
     throw error;
   }
 };
-
-

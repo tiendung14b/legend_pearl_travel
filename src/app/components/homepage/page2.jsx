@@ -1,6 +1,6 @@
 import Banner from "components/common/banner";
 import { useState, useEffect } from "react";
-import { createVideo, getVideos, createVideoNoAuth } from "api/api";
+import { create_video, getVideos, getCurrentUser } from "api/api";
 
 const characters = [
   { value: "none", name: "Default" },
@@ -102,6 +102,8 @@ export default function Page2({ onChangePage, data }) {
   const [videoData, setVideoData] = useState(data);
   const [filteredTranslations, setFilteredTranslations] = useState([]);
 
+  const [user, setUser] = useState(null);
+
   useEffect(() => {
     const fetchAvailableTranslations = async () => {
       try {
@@ -170,6 +172,19 @@ export default function Page2({ onChangePage, data }) {
     setFilteredTranslations(filtered);
   }, [charVoice, availableTranslations]);
 
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      getCurrentUser(token)
+        .then((data) => {
+          setUser(data);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
+  }, []);
+
   const fetchUpdatedData = async () => {
     try {
       const videoId = videoData.snippet.resourceId.videoId;
@@ -202,7 +217,9 @@ export default function Page2({ onChangePage, data }) {
         const updatedLanguages = [...prevLanguages];
         languages.forEach((lang) => {
           if (
-            !updatedLanguages.some((l) => l.languageCode === lang.languageCode)
+            !updatedLanguages.some(
+              (l) => l.languageCode === lang.languageCode
+            )
           ) {
             updatedLanguages.push(lang);
           }
@@ -218,11 +235,11 @@ export default function Page2({ onChangePage, data }) {
     console.log(language, voice);
     setOpen(false);
     setRequiredConfirm(false);
-    setIsLoading(true);
+    setIsLoading(true); {
+      /* http://127.0.0.1:8000/translate
+      http://localhost:8888/test/video */
+    }
     try {
-      {
-        /* http://127.0.0.1:8000/translate http://localhost:8888/test  */
-      }
       const response = await fetch(`
       http://127.0.0.1:8000/translate?url=${`https://www.youtube.com/watch?v=${data.snippet.resourceId.videoId}`}&language=${
         language.language
@@ -234,8 +251,6 @@ export default function Page2({ onChangePage, data }) {
 
       const res = await response.json();
 
-      console.log(res);
-
       const videoData = {
         video_id: data.snippet.resourceId.videoId,
         video_title: data.snippet.title,
@@ -245,17 +260,14 @@ export default function Page2({ onChangePage, data }) {
         video_url: res,
       };
 
-      const createdVideo = await createVideo(videoData);
+      const createdVideo = await create_video(videoData, user.username); // Pass username here
 
-      console.log(videoData);
       if (createdVideo) {
-        await fetchUpdatedData(); // Fetch updated data
+        await fetchUpdatedData();
         setIsLoading(false);
-        alert("Video created successfully!");
         setCurrLanguage(language.languageCode);
         document.getElementById("player").src = res;
-
-        // Update languages state without duplication
+        alert("Video created successfully!");
         setLanguages((prevLanguages) => {
           if (
             !prevLanguages.some(

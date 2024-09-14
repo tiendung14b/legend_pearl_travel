@@ -2,7 +2,7 @@
 import Banner from "components/common/banner";
 import { useState } from "react";
 import DurationBar from "components/shorts/durationBar";
-import { createAudio } from "api/api";
+import { getCurrentUser, create_audio } from "api/api";
 
 const musics = [
   { name: "None", value: "none", src: "" },
@@ -38,6 +38,34 @@ export default function Page3({ data, onChangePage }) {
   const [music, setMusic] = useState(musics[0]);
   const [loadAudio, setLoadAudio] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [progress, setProgress] = useState({});
+  const [user, setUser] = useState(null);
+
+  const getProgress = () => {
+    const run = setInterval(async () => {
+      const res = await fetch("http://127.0.0.1:8000/shorts/progress");
+      const result = await res.json();
+      setProgress(result);
+    }, 2000);
+
+    return () => {
+      clearInterval(run);
+    };
+  };
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      getCurrentUser(token)
+        .then((data) => {
+          setUser(data);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
+  }, []);
+
   {
     /* http://127.0.0.1:8000/shorts http://localhost:8888/test */
   }
@@ -48,9 +76,9 @@ export default function Page3({ data, onChangePage }) {
       data.type
     }&video_id=${data.snippet.resourceId.videoId}&music_name=${
       music.value
-    }&duration=${duration}`);
+    }&short_duration=${duration}`);
     const result = await res.json();
-
+    document.getElementById("player").src = result;
     console.log(result);
 
     const audioData = {
@@ -58,14 +86,14 @@ export default function Page3({ data, onChangePage }) {
       video_type: data.type,
       video_id: data.snippet.resourceId.videoId,
       music_name: music.name,
+      shorts_duration: duration,
     };
 
-    const createdAudio = await createAudio(audioData);
+    const createdAudio = await create_audio(audioData, user.username);
 
     console.log(audioData);
 
     if (createdAudio) {
-      await fetchUpdatedData(); // Fetch updated data
       setIsLoading(false);
       alert("Audio created successfully!");
     } else {
@@ -183,9 +211,7 @@ export default function Page3({ data, onChangePage }) {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white p-5 rounded-lg flex flex-col items-center">
             <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#F37B8F]"></div>
-            <p className="mt-3 text-[#F37B8F] font-semibold">
-              Creating audio...
-            </p>
+            <p className="mt-3 text-[#F37B8F] font-semibold">Progress.......</p>
           </div>
         </div>
       )}
