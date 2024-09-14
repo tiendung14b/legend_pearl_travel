@@ -2,33 +2,34 @@
 import Banner from "components/common/banner";
 import { useState } from "react";
 import DurationBar from "components/shorts/durationBar";
+import { createAudio } from "api/api";
 
 const musics = [
   { name: "None", value: "none", src: "" },
   {
-    name: "Wait wait wait meme",
-    value: "wwwwm",
-    src: "/audios/shorts/wwwww.mp3",
+    name: "Bones",
+    value: "bone",
+    src: "/audios/shorts/bone.mp3",
   },
   {
-    name: "Có chàng trai viết lên cây",
-    value: "cctvlc",
-    src: "/audios/shorts/cctvlc.mp3",
+    name: "Rickroll",
+    value: "rickroll",
+    src: "/audios/shorts/rickroll.mp3",
   },
   {
-    name: "Hai Yorokonde",
-    value: "hai_yorokonde",
-    src: "/audios/shorts/hai_yorokonde.mp3",
+    name: "Limbo",
+    value: "limbo",
+    src: "/audios/shorts/limbo.mp3",
   },
   {
-    name: "Ocean Meme",
-    value: "ocean_meme",
-    src: "/audios/shorts/ocean_meme.mp3",
+    name: "The Bottom 2",
+    value: "thebottom2",
+    src: "/audios/shorts/thebottom2.mp3",
   },
   {
-    name: "Weekend has come",
-    value: "weekend_has_come",
-    src: "/audios/shorts/weekend_has_come.mp3",
+    name: "Everybody",
+    value: "everybody",
+    src: "/audios/shorts/everybody.mp3",
   },
 ];
 
@@ -36,12 +37,36 @@ export default function Page3({ data, onChangePage }) {
   const [duration, setDuration] = useState(10);
   const [music, setMusic] = useState(musics[0]);
   const [loadAudio, setLoadAudio] = useState(false);
+  {
+    /* http://127.0.0.1:8000/shorts http://localhost:8888/test */
+  }
   const generateShorts = async () => {
-    const res = await fetch(`
+    const res = await fetch(` 
       http://127.0.0.1:8000/shorts?url=${`https://www.youtube.com/watch?v=${data.snippet.resourceId.videoId}`}&video_type=${
       data.type
     }&video_id=${data.snippet.resourceId.videoId}`);
     const result = await res.json();
+
+    console.log(result);
+
+    const audioData = {
+      url: result,
+      video_type: data.type,
+      video_id: data.snippet.resourceId.videoId,
+      music_name: music.name,
+    };
+
+    const createdAudio = await createAudio(audioData);
+
+    console.log(audioData);
+
+    if (createdAudio) {
+      await fetchUpdatedData(); // Fetch updated data
+      setIsLoading(false);
+      alert("Audio created successfully!");
+    } else {
+      alert("Failed to create audio. Please try again.");
+    }
     document.getElementById("player").src = result;
   };
 

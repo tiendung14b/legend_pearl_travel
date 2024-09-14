@@ -164,6 +164,19 @@ export const createVideo = async (videoData) => {
   }
 };
 
+export const createAudio = async (audioData) => {
+  try {
+    const response = await axios.post(`${API_URL}/audios/`, audioData, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error creating audio:', error.response.data.detail);
+    throw error;
+  }
+}
 
 export const getVideos = async (videoId) => {
   try {
