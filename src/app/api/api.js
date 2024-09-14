@@ -126,28 +126,28 @@ export const addYoutubeChannelID = async (channelId, authToken) => {
   }
 };
 
-export const createVideo = async (videoData, token) => {
+// export const createVideo = async (videoData, token) => {
+//   try {
+//     const response = await axios.post(`${API_URL}/videos/`, videoData, {
+//       headers: {
+//         Authorization: `Bearer ${token}`,
+//         'Content-Type': 'application/json',
+//       },
+//     });
+//     return response.data;
+//   } catch (error) {
+//     if (error.response) {
+//       console.error('Video creation failed:', error.response.data.detail);
+//     } else {
+//       console.error('Error occurred during video creation:', error.message);
+//     }
+//     throw error;
+//   }
+// };
+
+export const createVideo = async (videoData) => {
   try {
     const response = await axios.post(`${API_URL}/videos/`, videoData, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
-    });
-    return response.data;
-  } catch (error) {
-    if (error.response) {
-      console.error('Video creation failed:', error.response.data.detail);
-    } else {
-      console.error('Error occurred during video creation:', error.message);
-    }
-    throw error;
-  }
-};
-
-export const createVideoNoAuth = async (videoData) => {
-  try {
-    const response = await axios.post(`${API_URL}/videos_no_auth/`, videoData, {
       headers: {
         'Content-Type': 'application/json',
       },

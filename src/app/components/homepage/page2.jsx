@@ -215,8 +215,9 @@ export default function Page2({ onChangePage, data }) {
     setOpen(false);
     setRequiredConfirm(false);
     setIsLoading(true);
-    try {
+    try { {
       /* http://127.0.0.1:8000/translate http://localhost:8888/test  */
+    }
       const response = await fetch(`
       http://127.0.0.1:8000/translate?url=${`https://www.youtube.com/watch?v=${data.snippet.resourceId.videoId}`}&language=${
         language.language
@@ -239,14 +240,7 @@ export default function Page2({ onChangePage, data }) {
         video_url: res,
       };
 
-      const token = localStorage.getItem("token");
-      let createdVideo;
-
-      if (!token) {
-        createdVideo = await createVideoNoAuth(videoData);
-      } else {
-        createdVideo = await createVideo(videoData, token);
-      }
+      const createdVideo = await createVideo(videoData);
 
       console.log(videoData);
       if (createdVideo) {
