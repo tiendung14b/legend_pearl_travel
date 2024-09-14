@@ -13,6 +13,7 @@ const characters = [
 ];
 
 const availableLanguage = [
+  { language: "Vietnamese", languageCode: "vi" },
   { language: "English", languageCode: "en" },
   { language: "Spanish", languageCode: "es" },
   { language: "French", languageCode: "fr" },
@@ -54,7 +55,8 @@ function popupConfirmUpload({ data, setRequiredConfirm, onAgree }) {
       <strong className="text-black">
         Translate video to{" "}
         <span className="text-red-600">{data.language?.language}</span> with{" "}
-        <span className="text-red-600">{data.voice || 'Selected Voice'}</span> voice
+        <span className="text-red-600">{data.voice || "Selected Voice"}</span>{" "}
+        voice
       </strong>
       <div className="flex gap-2 mt-2">
         <button
@@ -199,7 +201,9 @@ export default function Page2({ onChangePage, data }) {
       setLanguages((prevLanguages) => {
         const updatedLanguages = [...prevLanguages];
         languages.forEach((lang) => {
-          if (!updatedLanguages.some((l) => l.languageCode === lang.languageCode)) {
+          if (
+            !updatedLanguages.some((l) => l.languageCode === lang.languageCode)
+          ) {
             updatedLanguages.push(lang);
           }
         });
@@ -215,9 +219,10 @@ export default function Page2({ onChangePage, data }) {
     setOpen(false);
     setRequiredConfirm(false);
     setIsLoading(true);
-    try { {
-      /* http://127.0.0.1:8000/translate http://localhost:8888/test  */
-    }
+    try {
+      {
+        /* http://127.0.0.1:8000/translate http://localhost:8888/test  */
+      }
       const response = await fetch(`
       http://127.0.0.1:8000/translate?url=${`https://www.youtube.com/watch?v=${data.snippet.resourceId.videoId}`}&language=${
         language.language
@@ -249,10 +254,14 @@ export default function Page2({ onChangePage, data }) {
         alert("Video created successfully!");
         setCurrLanguage(language.languageCode);
         document.getElementById("player").src = res;
-        
+
         // Update languages state without duplication
         setLanguages((prevLanguages) => {
-          if (!prevLanguages.some((lang) => lang.languageCode === language.languageCode)) {
+          if (
+            !prevLanguages.some(
+              (lang) => lang.languageCode === language.languageCode
+            )
+          ) {
             return [...prevLanguages, language];
           }
           return prevLanguages;
@@ -389,9 +398,13 @@ export default function Page2({ onChangePage, data }) {
               <strong className="text-[16px] font-[700]">Languages</strong>
               <div className="flex gap-2 flex-wrap mt-2">
                 {languages
-                  .filter(language => !filteredTranslations.some(translation => 
-                    translation.video_language === language.language
-                  ))
+                  .filter(
+                    (language) =>
+                      !filteredTranslations.some(
+                        (translation) =>
+                          translation.video_language === language.language
+                      )
+                  )
                   .map((language) => (
                     <span
                       className={`${
@@ -409,11 +422,15 @@ export default function Page2({ onChangePage, data }) {
                     </span>
                   ))}
                 {availableLanguages
-                  .filter(lang => 
-                    !languages.some(l => l.languageCode === lang.languageCode) &&
-                    !filteredTranslations.some(translation => 
-                      translation.video_language === lang.language
-                    )
+                  .filter(
+                    (lang) =>
+                      !languages.some(
+                        (l) => l.languageCode === lang.languageCode
+                      ) &&
+                      !filteredTranslations.some(
+                        (translation) =>
+                          translation.video_language === lang.language
+                      )
                   )
                   .map((lang, index) => (
                     <span
@@ -422,7 +439,10 @@ export default function Page2({ onChangePage, data }) {
                       onClick={() => {
                         setCurrLanguage(lang.languageCode);
                         setSelectedLanguage(lang);
-                        setLanguages(prevLanguages => [...prevLanguages, lang]);
+                        setLanguages((prevLanguages) => [
+                          ...prevLanguages,
+                          lang,
+                        ]);
                       }}
                     >
                       {lang.language}
@@ -440,8 +460,9 @@ export default function Page2({ onChangePage, data }) {
                           !languages.find(
                             (l) => l.languageCode === language.languageCode
                           ) &&
-                          !filteredTranslations.some(translation => 
-                            translation.video_language === language.language
+                          !filteredTranslations.some(
+                            (translation) =>
+                              translation.video_language === language.language
                           )
                       )}
                       confirm={(language) => {
