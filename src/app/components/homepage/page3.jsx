@@ -44,7 +44,9 @@ export default function Page3({ data, onChangePage }) {
     const res = await fetch(` 
       http://127.0.0.1:8000/shorts?url=${`https://www.youtube.com/watch?v=${data.snippet.resourceId.videoId}`}&video_type=${
       data.type
-    }&video_id=${data.snippet.resourceId.videoId}`);
+    }&video_id=${data.snippet.resourceId.videoId}&music_name=${
+      music.value
+    }&duration=${duration}`);
     const result = await res.json();
 
     console.log(result);
@@ -117,7 +119,7 @@ export default function Page3({ data, onChangePage }) {
             </div>
             <div className="flex flex-col">
               <strong className="text-[16px] font-[700]">Duration</strong>
-              <DurationBar duration={duration} />
+              <DurationBar duration={duration} setDuration={setDuration} />
             </div>
             <div className="flex items-center gap-2 mt-10">
               <strong className="text-[16px] font-[700]">Voices</strong>

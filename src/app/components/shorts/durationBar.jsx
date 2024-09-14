@@ -9,11 +9,12 @@ export default function DurationBar({ setDuration }) {
       {[0, 10, 20, 32, 45, 60].map((item, index) => (
         <div
           onMouseEnter={() => setHover(item)}
-          className="relative"
+          className="relative cursor-pointer"
           key={index}
           onMouseLeave={() => setHover(durationValue)}
           onClick={() => {
             setDurationValue(item);
+            setDuration(item);
           }}
         >
           <div
