@@ -42,25 +42,22 @@ export default function Page1({ onChangePage }) {
   const [youtubeVideos, setYoutubeVideos] = useState([]);
 
   useEffect(() => {
-    fetch(
-      `https://youtube.googleapis.com/youtube/v3/playlists?key=${apikey}&part=snippet&channelId=UC1EGizzKg_fn11ggLjhcrgQ`,
-      {
-        method: "GET",
-      }
-    )
-      .then((response) => response.json())
-      .then((result) => {
-        fetch(
-          `https://youtube.googleapis.com/youtube/v3/playlistItems?key=${apikey}&part=snippet&playlistId=${result.items[0].id}&maxResults=25`,
-          {
-            method: "GET",
-          }
-        )
-          .then((response) => response.json())
-          .then((result) => {
-            setYoutubeVideos(result.items);
-          });
-      });
+    if (JSON.parse(localStorage.getItem("user"))?.play_list_id) {
+      console.log(localStorage.getItem("user"));
+      fetch(
+        `https://youtube.googleapis.com/youtube/v3/playlistItems?key=${apikey}&part=snippet&playlistId=${
+          JSON.parse(localStorage.getItem("user")).play_list_id[0]
+        }&maxResults=25`,
+        {
+          method: "GET",
+        }
+      )
+        .then((response) => response.json())
+        .then((result) => {
+          console.log(result);
+          setYoutubeVideos(result.items);
+        });
+    }
   }, []);
   const onOpenFile = () => {
     console.log("open file");
@@ -138,7 +135,7 @@ export default function Page1({ onChangePage }) {
           />
         </div>
       </div>
-      {youtubeVideos.length > 0 && (
+      {youtubeVideos?.length > 0 && (
         <div className="mt-[30px] w-full">
           <h3 className="text-base font-[700]">Youtube Videos</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mt-[20px]">

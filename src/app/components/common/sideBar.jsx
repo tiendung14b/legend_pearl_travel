@@ -96,8 +96,15 @@ export default function SideBar() {
     console.log("Submitted YouTube Channel ID:", YTchannelID);
 
     try {
-      await addYoutubeChannelID(YTchannelID, token);
-      alert("YouTube Channel ID added successfully!");
+      const res = await addYoutubeChannelID(YTchannelID, token);
+      localStorage.setItem(
+        "user",
+        JSON.stringify({
+          ...JSON.parse(localStorage.getItem("user")),
+          play_list_id: res.play_list_id,
+        })
+      );
+      location.reload();
     } catch (error) {
       alert(`Error: ${error.message}`);
     }

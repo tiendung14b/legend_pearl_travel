@@ -75,6 +75,7 @@ export const getCurrentUser = async (token) => {
         Authorization: `Bearer ${token}`,
       },
     });
+    localStorage.setItem("user", JSON.stringify(response.data));
     return response.data;
   } catch (error) {
     throw new Error(error.response?.data?.detail || "Failed to fetch user");
@@ -84,7 +85,7 @@ export const getCurrentUser = async (token) => {
 export const logout = () => {
   try {
     localStorage.removeItem("token");
-    console.log("Logged out successfully");
+    localStorage.removeItem("user");
   } catch (error) {
     console.error("Error occurred during logout:", error.message);
   }
