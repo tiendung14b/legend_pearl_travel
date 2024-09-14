@@ -37,10 +37,12 @@ export default function Page3({ data, onChangePage }) {
   const [duration, setDuration] = useState(10);
   const [music, setMusic] = useState(musics[0]);
   const [loadAudio, setLoadAudio] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   {
     /* http://127.0.0.1:8000/shorts http://localhost:8888/test */
   }
   const generateShorts = async () => {
+    setIsLoading(true);
     const res = await fetch(` 
       http://127.0.0.1:8000/shorts?url=${`https://www.youtube.com/watch?v=${data.snippet.resourceId.videoId}`}&video_type=${
       data.type
@@ -177,6 +179,16 @@ export default function Page3({ data, onChangePage }) {
           </div>
         </div>
       </div>
+      {isLoading && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-5 rounded-lg flex flex-col items-center">
+            <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#F37B8F]"></div>
+            <p className="mt-3 text-[#F37B8F] font-semibold">
+              Creating audio...
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
