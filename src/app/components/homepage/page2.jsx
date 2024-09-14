@@ -100,7 +100,7 @@ export default function Page2({ onChangePage, data }) {
         language.language
       }&video_type=${data.type}&use_captions=${
         data.use_captions ? "True" : "False"
-      }&voice=${voice.value}&video_id=${
+      }&voice_name=${voice.value}&video_id=${
         data.snippet.resourceId.videoId || ""
       }`);
 
@@ -118,6 +118,11 @@ export default function Page2({ onChangePage, data }) {
       };
 
       const token = localStorage.getItem("token");
+      if (!token) {
+        alert("Please login to create video.");
+        return;
+      }
+
       const createdVideo = await createVideo(videoData, token);
       console.log(videoData);
       if (createdVideo) {

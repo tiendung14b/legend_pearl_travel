@@ -4,9 +4,8 @@ import { useState } from "react";
 
 export default function Page3({ data, onChangePage }) {
   const generateShorts = async () => {
-    const res = await fetch(
-      `http://localhost:8000/shorts?videoId=${data.snippet.resourceId.videoId}&url=${data.snippet.thumbnails.high.url}&video_type=${data.type}`
-    );
+    const res = await fetch(`
+      http://127.0.0.1:8000/shorts?url=${`https://www.youtube.com/watch?v=${data.snippet.resourceId.videoId}`}&video_type=${data.type}&video_id=${data.snippet.resourceId.videoId}`);
     const result = await res.json();
     document.getElementById("player").src = result;
   };
@@ -38,7 +37,7 @@ export default function Page3({ data, onChangePage }) {
             allowFullScreen
           ></iframe>
           <div className="flex flex-col gap-4 border-[1px] border-slate-400 w-full h-[80%] overflow-y-auto rounded-lg px-6 py-5">
-            <button className="w-full rounded-sm text-[#f00] text-[14px] font-[700] py-2 text-center bg-[#F37B8F26]">
+            <button onClick={generateShorts} className="w-full rounded-sm text-[#f00] text-[14px] font-[700] py-2 text-center bg-[#F37B8F26]">
               Start Generate
             </button>
             <div className="flex flex-col">
