@@ -3,6 +3,7 @@ import Banner from "components/common/banner";
 import { useState } from "react";
 import DurationBar from "components/shorts/durationBar";
 import { getCurrentUser, create_audio } from "api/api";
+import { useEffect } from "react";
 
 const musics = [
   { name: "None", value: "none", src: "" },
@@ -40,18 +41,11 @@ export default function Page3({ data, onChangePage }) {
   const [isLoading, setIsLoading] = useState(false);
   const [progress, setProgress] = useState({});
   const [user, setUser] = useState(null);
-
-  const getProgress = () => {
-    const run = setInterval(async () => {
-      const res = await fetch("http://127.0.0.1:8000/shorts/progress");
-      const result = await res.json();
-      setProgress(result);
-    }, 2000);
-
-    return () => {
-      clearInterval(run);
-    };
-  };
+  const [shortsData, setShortsData] = useState({
+    short_title: "hello",
+    cloud_path: undefined,
+    short_description: "Tất cả là tại đậu xanh",
+  });
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -78,11 +72,10 @@ export default function Page3({ data, onChangePage }) {
       music.value
     }&short_duration=${duration}`);
     const result = await res.json();
-    document.getElementById("player").src = result;
-    console.log(result);
+    setShortsData(result);
 
     const audioData = {
-      url: result,
+      url: result.cloud_path,
       video_type: data.type,
       video_id: data.snippet.resourceId.videoId,
       music_name: music.name,
@@ -123,7 +116,10 @@ export default function Page3({ data, onChangePage }) {
           <iframe
             id="player"
             className="h-[80%] aspect-video rounded-lg"
-            src={`https://www.youtube.com/embed/${data.snippet.resourceId.videoId}`}
+            src={
+              shortsData.cloud_path ||
+              `https://www.youtube.com/embed/${data.snippet.resourceId.videoId}`
+            }
             title="YouTube video player"
             frameBorder="0"
             allowFullScreen
@@ -138,7 +134,23 @@ export default function Page3({ data, onChangePage }) {
             <div className="flex flex-col">
               <strong className="text-[16px] font-[700]">Title</strong>
               <span>{data.snippet.title}</span>
+              {shortsData.short_title && (
+                <span className="text-red-600 italic">
+                  {shortsData.short_title} - (Generated)
+                </span>
+              )}
             </div>
+            {shortsData.short_description && (
+              <div className="flex flex-col">
+                <strong className="text-[16px] font-[700]">Description</strong>
+                <span>{data.snippet.title}</span>
+                {shortsData.short_title && (
+                  <span className="text-red-600 italic">
+                    {shortsData.short_description} - (Generated)
+                  </span>
+                )}
+              </div>
+            )}
             <div className="flex flex-col">
               <strong className="text-[16px] font-[700]">Date</strong>
               <span>
