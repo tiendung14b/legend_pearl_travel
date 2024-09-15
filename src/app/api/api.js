@@ -1,10 +1,10 @@
 import axios from "axios";
 
-const API_URL = "https://batoreach-be.onrender.com";
+// const API_URL = "https://batoreach-be.onrender.com";
 
 // const API_URL = "https://bato-reach-be.vercel.app";
 
-// const API_URL = "http://localhost:8888";
+const API_URL = "http://localhost:8888";
 
 export const signup = async (userData) => {
   try {
@@ -173,13 +173,25 @@ export const create_audio = async (audioData, username) => {
   }
 };
 
-
 export const getVideos = async (videoId) => {
   try {
     const response = await axios.get(`${API_URL}/videos/${videoId}`);
     return response.data;
   } catch (error) {
     console.error("Error fetching videos:", error.response.data.detail);
+    throw error;
+  }
+};
+
+export const getVideosList = async (videoIds) => {
+  try {
+    // console.log("Requesting video list with IDs:", videoIds); // Debugging line
+    const url = new URL(`${API_URL}/videos/list/`);
+    videoIds.forEach(id => url.searchParams.append('video_ids', id));
+    const response = await axios.get(url.toString());
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching video list:", error.response?.data?.detail || error.message);
     throw error;
   }
 };
