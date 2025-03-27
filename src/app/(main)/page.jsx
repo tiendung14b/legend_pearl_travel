@@ -7,6 +7,6 @@ import { useState } from "react";
 
 export default function MyProject() {
   return <>
-    <p>Page đang trong quá trình phát triển</p>
+    <p>Page đang trong quá trình phát triển!!</p>
   </>
 }
